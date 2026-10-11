@@ -1,4 +1,4 @@
-name: Deploy demo to GitHub Pages
+name: Deploy Home 360 to GitHub Pages
 
 on:
   push:
@@ -26,7 +26,7 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
       - name: Upload site artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: .
       - name: Deploy to GitHub Pages
