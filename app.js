@@ -28,8 +28,9 @@ document.addEventListener('click', event => {
 
 function renderRooms() {
   const list = $('#room-list');
-  $('#room-count').textContent = `${state.rooms.length} ${state.rooms.length === 1 ? 'added' : 'added'}`;
-  if (!state.rooms.length) {
+  const count = state.rooms.length;
+  $('#room-count').textContent = `${count} ${count === 1 ? 'room added' : 'rooms added'}`;
+  if (!count) {
     list.innerHTML = '<div class="empty-rooms">You haven’t added any rooms yet.</div>';
     return;
   }
@@ -60,11 +61,11 @@ $('#video-file').addEventListener('change', event => {
   const file = event.target.files?.[0];
   if (!file) return;
   if (!$('#video-consent').checked) {
-    alert('Please confirm that you understand how this demo handles the video.');
+    alert('Please confirm how this demo handles the video first.');
     event.target.value = '';
     return;
   }
-  if (!file.type.startsWith('video/')) { alert('Please select a video file.'); event.target.value = ''; return; }
+  if (!file.type.startsWith('video/')) { alert('Choose a video file.'); event.target.value = ''; return; }
   if (file.size > 300 * 1024 * 1024) { alert('For this demo, the video must be smaller than 300 MB.'); event.target.value = ''; return; }
   clearVideo();
   state.videoUrl = URL.createObjectURL(file);
@@ -89,27 +90,27 @@ function currency(value) {
 }
 
 function lineForRoom(room) {
-  if (room.type === 'Kitchen') return { title: `Update finishes in ${room.name.toLowerCase()}`, low: room.area * 280, high: room.area * 650, detail: 'Illustrative area-based estimate. Appliances, layout changes, and full service replacements are not included.' };
-  if (room.type === 'Bathroom') return { title: `Update finishes in ${room.name.toLowerCase()}`, low: room.area * 350, high: room.area * 800, detail: 'Illustrative estimate. Plumbing, waterproofing, and existing conditions can significantly affect cost.' };
-  return { title: `Painting and finishes in ${room.name.toLowerCase()}`, low: room.area * 45, high: room.area * 130, detail: 'Cosmetic improvement while keeping the existing layout. The range depends on condition and materials.' };
+  if (room.type === 'Kitchen') return { title: `Refresh the finishes in ${room.name.toLowerCase()}`, low: room.area * 280, high: room.area * 650, detail: 'Illustrative area-based range. Excludes appliances, layout changes, and full replacement of services.' };
+  if (room.type === 'Bathroom') return { title: `Refresh the finishes in ${room.name.toLowerCase()}`, low: room.area * 350, high: room.area * 800, detail: 'Illustrative range. Plumbing, waterproofing, and existing conditions can change the cost significantly.' };
+  return { title: `Paint and refresh finishes in ${room.name.toLowerCase()}`, low: room.area * 45, high: room.area * 130, detail: 'Cosmetic improvement while keeping the existing layout. The range depends on condition and material choices.' };
 }
 
 function prioritySuggestion(priority) {
   const suggestions = {
-    'More natural light': 'Consider light colours, lightweight curtains, and keeping light paths clear; check orientation and openings before planning construction.',
-    'More storage': 'Look for vertical storage and use corners without blocking windows, walkways, or radiators.',
-    'Better layout': 'Compare furniture and circulation options. Do not assume a partition wall can be removed.',
-    'More room to work': 'Set aside a workspace with suitable lighting, a nearby power outlet, and compact storage.',
-    'Improve energy efficiency': 'Start by checking windows, insulation, and heating or cooling; do not infer performance from appearance.',
-    'Update finishes': 'Try a consistent palette and compare materials with different maintenance needs and durability.'
+    'More natural light': 'Consider lighter colours and sheer window coverings; keep light paths clear. Verify orientation and openings before considering building work.',
+    'More storage': 'Explore vertical storage and underused corners without blocking windows, circulation, or radiators.',
+    'Better layout': 'Compare furniture and circulation options. Do not assume a wall can be removed.',
+    'A better workspace': 'Allow for task lighting, a nearby power outlet, and compact storage.',
+    'Energy efficiency': 'Start with an inspection of windows, insulation, and heating or cooling; appearance alone cannot establish performance.',
+    'Updated finishes': 'Compare coherent palettes and materials with different maintenance and durability needs.'
   };
   return suggestions[priority] || 'Review this priority when comparing layout and finish options.';
 }
 
 function generateProposal() {
-  if (!state.rooms.length) { alert('Add at least one room with an area to prepare a proposal.'); return; }
+  if (!state.rooms.length) { alert('Add at least one room with an area to create a concept.'); return; }
   const projectName = $('#project-name').value.trim() || 'My new home';
-  const city = $('#city').value.trim() || 'Area not specified';
+  const city = $('#city').value.trim() || 'Location not specified';
   const budget = Number($('#budget').value);
   if (!Number.isFinite(budget) || budget < 1000) { alert('Enter a valid budget.'); goToStep(1); $('#budget').focus(); return; }
   const style = $('input[name="style"]:checked').value;
@@ -120,28 +121,28 @@ function generateProposal() {
   const totalArea = state.rooms.reduce((sum, room) => sum + room.area, 0);
   const lowWithContingency = totalLow * 1.15;
   const highWithContingency = totalHigh * 1.15;
-  const prioritiesHtml = priorities.length ? priorities.map(priority => `<div class="plan-item"><span class="plan-num">✓</span><div class="plan-copy"><b>${escapeHtml(priority)}</b><p>${escapeHtml(prioritySuggestion(priority))}</p></div></div>`).join('') : '<p class="footnote">You haven’t selected specific priorities yet; this proposal is based on the chosen style and rooms.</p>';
+  const prioritiesHtml = priorities.length ? priorities.map(priority => `<div class="plan-item"><span class="plan-num">✓</span><div class="plan-copy"><b>${escapeHtml(priority)}</b><p>${escapeHtml(prioritySuggestion(priority))}</p></div></div>`).join('') : '<p class="footnote">You haven’t selected specific priorities yet. This concept is based on the style and rooms you entered.</p>';
   const overBudget = budget < lowWithContingency;
   const warnings = [
     'Areas are user-entered; they have not been measured from the video.',
-    'Structure, hidden utilities, damp, regulations, and permits have not been checked.',
-    'Prices are fictional ranges for testing the interface. They are not local prices or professional quotes.'
+    'Structure, hidden services, damp, local regulations, and permits have not been checked.',
+    'The price ranges are fictional values for testing the interface, not local prices or contractor quotes.'
   ];
-  if (overBudget) warnings.unshift('The stated limit is below the low end of this simulation. Reduce the scope or request quotes in phases.');
+  if (overBudget) warnings.unshift('The stated limit is below even the low end of this simulation. Reduce the scope or request phased quotes.');
   const proposal = `
-    <div class="proposal-header"><div><div class="eyebrow small">INITIAL OVERVIEW · ${escapeHtml(city.toUpperCase())}</div><h2>${escapeHtml(projectName)}</h2><p>${escapeHtml(style)} · ${totalArea.toLocaleString('en-GB')} m² entered · ${state.rooms.length} rooms</p></div><span class="concept-tag">CONCEPT, NOT A PROJECT</span></div>
-    <div class="proposal-grid"><div class="metric-card"><div class="metric-label">Simulated range</div><div class="metric-value">${currency(totalLow)} – ${currency(totalHigh)}</div><div class="metric-sub">With a 15% exploratory contingency: ${currency(lowWithContingency)} – ${currency(highWithContingency)}.</div></div><div class="metric-card"><div class="metric-label">Your approximate limit</div><div class="metric-value">${currency(budget)}</div><div class="metric-sub">${overBudget ? 'The simulated scope exceeds the limit even at its minimum.' : 'This does not mean prices are validated or the scope is final.'}</div></div></div>
+    <div class="proposal-header"><div><div class="eyebrow small">FIRST LOOK · ${escapeHtml(city.toUpperCase())}</div><h2>${escapeHtml(projectName)}</h2><p>${escapeHtml(style)} · ${totalArea.toLocaleString('en-GB')} m² entered · ${state.rooms.length} rooms</p></div><span class="concept-tag">CONCEPT, NOT A PROJECT</span></div>
+    <div class="proposal-grid"><div class="metric-card"><div class="metric-label">Simulated range</div><div class="metric-value">${currency(totalLow)} – ${currency(totalHigh)}</div><div class="metric-sub">With a 15% exploratory contingency: ${currency(lowWithContingency)} – ${currency(highWithContingency)}.</div></div><div class="metric-card"><div class="metric-label">Your indicative limit</div><div class="metric-value">${currency(budget)}</div><div class="metric-sub">This does not mean the figures are validated or the scope is final.</div></div></div>
     <section class="proposal-section"><h3>Possible room-by-room plan</h3>${lines.map((line, index) => `<div class="plan-item"><span class="plan-num">${String(index + 1).padStart(2, '0')}</span><div class="plan-copy"><b>${escapeHtml(line.title)}</b><p>${escapeHtml(line.detail)}</p></div><span class="plan-cost">${currency(line.low)}–${currency(line.high)}</span></div>`).join('')}</section>
-    <section class="proposal-section"><h3>Design direction</h3><div class="style-summary"><b>${escapeHtml(style)}:</b> use it as a starting point, not a rigid label. Compare references for materials, lighting, and furniture that you like. To truly personalise the result, a future version should ask you to rate example images; this demo does not learn your tastes or generate renders yet.</div></section>
-    <section class="proposal-section"><h3>Your priorities, translated into decisions</h3>${prioritiesHtml}</section>
-    <section class="proposal-section"><h3>Checks before hiring</h3><div class="alert-list">${warnings.map(text => `<p><span class="alert-mark">!</span><span>${escapeHtml(text)}</span></p>`).join('')}</div><p class="footnote">These figures have not been checked against a regional price catalogue, site visit, or professional assessment. Request an inspection and itemised quotes before starting work.</p></section>`;
+    <section class="proposal-section"><h3>Design direction</h3><div class="style-summary"><b>${escapeHtml(style)}:</b> treat this as a starting point, not a rigid label. Compare references for materials, lighting, and furniture that you actually like. For genuine personalisation, a later version should let you rate example images; this demo does not learn your taste or generate renders.</div></section>
+    <section class="proposal-section"><h3>Your priorities, turned into decisions</h3>${prioritiesHtml}</section>
+    <section class="proposal-section"><h3>Checks before hiring a contractor</h3><div class="alert-list">${warnings.map(text => `<p><span class="alert-mark">!</span><span>${escapeHtml(text)}</span></p>`).join('')}</div><p class="footnote">These ranges have not been checked against a regional price catalogue, a site visit, or a professional assessment. Arrange an inspection and request itemised quotes before starting work.</p></section>`;
   $('#proposal-content').innerHTML = proposal;
   goToStep(3);
 }
 $('#generate-plan').addEventListener('click', generateProposal);
 $('#print-plan').addEventListener('click', () => window.print());
 
-// Keep the video selection explicit; never trigger camera or upload automatically.
+// Never activate the camera or upload a selected video automatically.
 $('#video-consent').addEventListener('change', event => {
   if (!event.target.checked) clearVideo();
 });

@@ -39,7 +39,7 @@ void main() {
 
     expect(plan.lineItems, hasLength(2));
     expect(plan.lineItems.first.lowEstimateEuros, 540);
-    expect(plan.lineItems.last.title, 'Measurements pending');
+    expect(plan.lineItems.last.title, 'Measurements to confirm');
   });
 
   test('flags a budget below the minimum estimate', () {

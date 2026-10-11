@@ -63,7 +63,7 @@ class _ProjectSetupPageState extends State<ProjectSetupPage> {
     final name = _roomName.text.trim();
     final area = double.tryParse(_area.text.replaceAll(',', '.'));
     if (name.isEmpty || area == null || area <= 0 || area > 250) {
-      _showMessage('Enter a name and an area between 0 and 250 m².');
+      _showMessage('Enter a room name and an area between 0 and 250 m².');
       return;
     }
     setState(() {
@@ -112,13 +112,13 @@ class _ProjectSetupPageState extends State<ProjectSetupPage> {
             children: [
               Text('Plan your renovation', style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: 8),
-              const Text('Tell us what you would like to change. This prototype creates an initial estimate locally without uploading your data.'),
+              const Text('Tell us what you would like to change. This prototype creates an initial local estimate without uploading your data.'),
               const SizedBox(height: 20),
-              _sectionTitle(context, '1. Project'),
+              _sectionTitle(context, '1. The project'),
               TextFormField(
                 controller: _name,
                 decoration: const InputDecoration(labelText: 'Project name'),
-                validator: (value) => value == null || value.trim().isEmpty ? 'Enter a name.' : null,
+                validator: (value) => value == null || value.trim().isEmpty ? 'Enter a project name.' : null,
               ),
               const SizedBox(height: 12),
               TextFormField(
@@ -148,8 +148,8 @@ class _ProjectSetupPageState extends State<ProjectSetupPage> {
                 Expanded(child: TextField(controller: _priority, decoration: const InputDecoration(hintText: 'More light, storage…'))),
                 IconButton(onPressed: _addPriority, icon: const Icon(Icons.add_circle_outline), tooltip: 'Add priority'),
               ]),
-              if (_priorities.isEmpty) const Padding(padding: EdgeInsets.only(top: 8), child: Text('You haven’t added any priorities yet.')),
-              Wrap(spacing: 8, children: _priorities.map((item) => InputChip(label: Text(item), onDeleted: () => setState(() => _priorities.remove(item))).toList()),
+              if (_priorities.isEmpty) const Padding(padding: EdgeInsets.only(top: 8), child: Text('No priorities added yet.')),
+              Wrap(spacing: 8, children: _priorities.map((item) => InputChip(label: Text(item), onDeleted: () => setState(() => _priorities.remove(item)))).toList()),
               const SizedBox(height: 12),
               Wrap(spacing: 8, children: [
                 for (final item in ['Flooring', 'Doors', 'Furniture'])
@@ -205,10 +205,10 @@ class _ProjectSetupPageState extends State<ProjectSetupPage> {
               FilledButton.icon(
                 onPressed: _generatePlan,
                 icon: const Icon(Icons.auto_awesome),
-                label: const Padding(padding: EdgeInsets.symmetric(vertical: 14), child: Text('Generate initial plan')),
+                label: const Padding(padding: EdgeInsets.symmetric(vertical: 14), child: Text('Generate an indicative plan')),
               ),
               const SizedBox(height: 12),
-              const Text('The app does not analyze video yet. Estimates are not professional quotes or technical plans.', textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: Colors.black54)),
+              const Text('The app does not analyse video yet. Estimates are not a professional quote or technical project.', textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: Colors.black54)),
             ],
           ),
         ),
@@ -248,7 +248,7 @@ class PlanPage extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text('${_euros(plan.lowTotalEuros)} – ${_euros(plan.highTotalEuros)}', style: Theme.of(context).textTheme.headlineSmall),
                 Text('Stated budget: ${_euros(plan.budgetEuros)}'),
-                if (plan.likelyOverBudget) const Text('The stated limit is below even the low end of the estimate.', style: TextStyle(color: Colors.red)),
+                if (plan.likelyOverBudget) const Text('The stated limit is below even the low end of this estimate.', style: TextStyle(color: Colors.red)),
               ]),
             ),
           ),

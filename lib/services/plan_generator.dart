@@ -14,37 +14,37 @@ class PlanGenerator {
       switch (room.type) {
         case RoomType.kitchen:
           items.add(_item(
-            '${room.name}: kitchen refresh',
-            'Finishes and light renovation; no layout change is assumed.',
+            '${room.name}: kitchen finish refresh',
+            'Light finish updates; no layout change is assumed.',
             room.areaSquareMeters * 280,
             room.areaSquareMeters * 650,
-            'Illustrative area-based estimate. Appliances and utility changes are excluded.',
+            'Illustrative area-based range. Excludes appliances and changes to building services.',
           ));
         case RoomType.bathroom:
           items.add(_item(
-            '${room.name}: bathroom refresh',
-            'Finishes and light renovation; verify waterproofing and utilities.',
+            '${room.name}: bathroom finish refresh',
+            'Light finish updates; check waterproofing and services.',
             room.areaSquareMeters * 350,
             room.areaSquareMeters * 800,
-            'Illustrative area-based estimate. Plumbing condition may significantly change the cost.',
+            'Illustrative area-based range. Plumbing condition may materially change the cost.',
           ));
         case RoomType.livingRoom:
         case RoomType.bedroom:
         case RoomType.hallway:
         case RoomType.other:
           items.add(_item(
-            '${room.name}: painting and finishes',
-            'Cosmetic improvement while retaining the existing layout.',
+            '${room.name}: paint and finishes',
+            'Cosmetic improvement while keeping the existing layout.',
             room.areaSquareMeters * 45,
             room.areaSquareMeters * 130,
-            'Preliminary area-based range; depends on current condition and selected materials.',
+            'Preliminary area-based range; depends on current condition and chosen materials.',
           ));
       }
     }
 
     if (project.rooms.any((room) => !room.hasValidArea)) {
       items.add(const PlanLineItem(
-        title: 'Measurements pending',
+        title: 'Measurements to confirm',
         description: 'Confirm room areas before refining the calculation.',
         lowEstimateEuros: 0,
         highEstimateEuros: 0,
@@ -53,14 +53,14 @@ class PlanGenerator {
     }
 
     final warnings = <String>[
-      'Demonstration estimate: not a contractor quote or technical project.',
-      'Video or user-provided measurements cannot verify structure, hidden utilities, or permits.',
+      'Demonstration estimate only; not a contractor quote or technical project.',
+      'A video or user-entered areas cannot confirm structure, hidden services, or permits.',
     ];
     if (project.rooms.isEmpty) {
       warnings.add('Add at least one room to generate indicative line items.');
     }
     if (project.keepItems.isNotEmpty) {
-      warnings.add('Items to retain: ${project.keepItems.join(', ')}. Confirm their condition and measurements.');
+      warnings.add('Items to keep: ${project.keepItems.join(', ')}. Confirm their condition and dimensions.');
     }
 
     return RenovationPlan(
@@ -72,7 +72,7 @@ class PlanGenerator {
         'Selected style: ${project.style.label}.',
         'Stated priorities: ${project.priorities.isEmpty ? 'none yet' : project.priorities.join(', ')}.',
         'Stated location: ${project.city.isEmpty ? 'not specified' : project.city}.',
-        'Ranges use fictional prototype rates and do not reflect current local prices.',
+        'Ranges use fictional prototype rates and are not current local prices.',
       ],
       budgetEuros: project.budgetEuros,
     );
