@@ -4,9 +4,9 @@ enum RoomType { livingRoom, kitchen, bedroom, bathroom, hallway, other }
 
 extension DesignStyleLabel on DesignStyle {
   String get label => switch (this) {
-        DesignStyle.contemporary => 'Contemporáneo',
-        DesignStyle.nordic => 'Nórdico',
-        DesignStyle.mediterranean => 'Mediterráneo',
+        DesignStyle.contemporary => 'Contemporary',
+        DesignStyle.nordic => 'Nordic',
+        DesignStyle.mediterranean => 'Mediterranean',
         DesignStyle.industrial => 'Industrial',
         DesignStyle.japandi => 'Japandi',
       };
@@ -14,12 +14,12 @@ extension DesignStyleLabel on DesignStyle {
 
 extension RoomTypeLabel on RoomType {
   String get label => switch (this) {
-        RoomType.livingRoom => 'Salón',
-        RoomType.kitchen => 'Cocina',
-        RoomType.bedroom => 'Dormitorio',
-        RoomType.bathroom => 'Baño',
-        RoomType.hallway => 'Pasillo',
-        RoomType.other => 'Otra estancia',
+        RoomType.livingRoom => 'Living room',
+        RoomType.kitchen => 'Kitchen',
+        RoomType.bedroom => 'Bedroom',
+        RoomType.bathroom => 'Bathroom',
+        RoomType.hallway => 'Hallway',
+        RoomType.other => 'Other room',
       };
 }
 

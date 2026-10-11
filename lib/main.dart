@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'models/renovation_project.dart';
 import 'services/plan_generator.dart';
 
-void main() => runApp(const NewHomeApp());
+void main() => runApp(const Home360App());
 
-class NewHomeApp extends StatelessWidget {
-  const NewHomeApp({super.key});
+class Home360App extends StatelessWidget {
+  const Home360App({super.key});
 
   @override
   Widget build(BuildContext context) => MaterialApp(
-        title: 'New Home',
+        title: 'Home 360',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
@@ -36,7 +36,7 @@ class ProjectSetupPage extends StatefulWidget {
 
 class _ProjectSetupPageState extends State<ProjectSetupPage> {
   final _formKey = GlobalKey<FormState>();
-  final _name = TextEditingController(text: 'Mi reforma');
+  final _name = TextEditingController(text: 'My renovation');
   final _city = TextEditingController(text: 'Madrid');
   final _budget = TextEditingController(text: '30000');
   final _roomName = TextEditingController();
@@ -63,7 +63,7 @@ class _ProjectSetupPageState extends State<ProjectSetupPage> {
     final name = _roomName.text.trim();
     final area = double.tryParse(_area.text.replaceAll(',', '.'));
     if (name.isEmpty || area == null || area <= 0 || area > 250) {
-      _showMessage('Indica un nombre y una superficie entre 0 y 250 m².');
+      _showMessage('Enter a name and an area between 0 and 250 m².');
       return;
     }
     setState(() {
@@ -104,69 +104,69 @@ class _ProjectSetupPageState extends State<ProjectSetupPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(title: const Text('New Home'), centerTitle: false),
+        appBar: AppBar(title: const Text('Home 360'), centerTitle: false),
         body: Form(
           key: _formKey,
           child: ListView(
             padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
             children: [
-              Text('Planifica tu reforma', style: Theme.of(context).textTheme.headlineMedium),
+              Text('Plan your renovation', style: Theme.of(context).textTheme.headlineMedium),
               const SizedBox(height: 8),
-              const Text('Cuéntanos qué quieres cambiar. Este prototipo genera una primera estimación local, sin subir tus datos.'),
+              const Text('Tell us what you would like to change. This prototype creates an initial estimate locally without uploading your data.'),
               const SizedBox(height: 20),
-              _sectionTitle(context, '1. El proyecto'),
+              _sectionTitle(context, '1. Project'),
               TextFormField(
                 controller: _name,
-                decoration: const InputDecoration(labelText: 'Nombre del proyecto'),
-                validator: (value) => value == null || value.trim().isEmpty ? 'Escribe un nombre.' : null,
+                decoration: const InputDecoration(labelText: 'Project name'),
+                validator: (value) => value == null || value.trim().isEmpty ? 'Enter a name.' : null,
               ),
               const SizedBox(height: 12),
               TextFormField(
                 controller: _city,
-                decoration: const InputDecoration(labelText: 'Ciudad'),
+                decoration: const InputDecoration(labelText: 'City'),
               ),
               const SizedBox(height: 12),
               TextFormField(
                 controller: _budget,
                 keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                decoration: const InputDecoration(labelText: 'Presupuesto máximo', prefixText: '€ '),
+                decoration: const InputDecoration(labelText: 'Maximum budget', prefixText: '€ '),
                 validator: (value) {
                   final amount = double.tryParse((value ?? '').replaceAll(',', '.'));
-                  return amount == null || amount <= 0 ? 'Introduce un presupuesto válido.' : null;
+                  return amount == null || amount <= 0 ? 'Enter a valid budget.' : null;
                 },
               ),
               const SizedBox(height: 12),
               DropdownButtonFormField<DesignStyle>(
                 value: _style,
-                decoration: const InputDecoration(labelText: 'Estilo que te atrae'),
+                decoration: const InputDecoration(labelText: 'Preferred style'),
                 items: DesignStyle.values.map((style) => DropdownMenuItem(value: style, child: Text(style.label))).toList(),
                 onChanged: (value) => setState(() => _style = value ?? _style),
               ),
               const SizedBox(height: 24),
-              _sectionTitle(context, '2. Tus prioridades'),
+              _sectionTitle(context, '2. Your priorities'),
               Row(children: [
-                Expanded(child: TextField(controller: _priority, decoration: const InputDecoration(hintText: 'Más luz, almacenaje…'))),
-                IconButton(onPressed: _addPriority, icon: const Icon(Icons.add_circle_outline), tooltip: 'Añadir prioridad'),
+                Expanded(child: TextField(controller: _priority, decoration: const InputDecoration(hintText: 'More light, storage…'))),
+                IconButton(onPressed: _addPriority, icon: const Icon(Icons.add_circle_outline), tooltip: 'Add priority'),
               ]),
-              if (_priorities.isEmpty) const Padding(padding: EdgeInsets.only(top: 8), child: Text('Aún no has añadido prioridades.')),
-              Wrap(spacing: 8, children: _priorities.map((item) => InputChip(label: Text(item), onDeleted: () => setState(() => _priorities.remove(item)))).toList()),
+              if (_priorities.isEmpty) const Padding(padding: EdgeInsets.only(top: 8), child: Text('You haven’t added any priorities yet.')),
+              Wrap(spacing: 8, children: _priorities.map((item) => InputChip(label: Text(item), onDeleted: () => setState(() => _priorities.remove(item))).toList()),
               const SizedBox(height: 12),
               Wrap(spacing: 8, children: [
-                for (final item in ['Suelo', 'Puertas', 'Muebles'])
+                for (final item in ['Flooring', 'Doors', 'Furniture'])
                   FilterChip(
-                    label: Text('Conservar $item'),
+                    label: Text('Keep $item'),
                     selected: _keepItems.contains(item),
                     onSelected: (selected) => setState(() => selected ? _keepItems.add(item) : _keepItems.remove(item)),
                   ),
               ]),
               const SizedBox(height: 24),
-              _sectionTitle(context, '3. Estancias y medidas'),
+              _sectionTitle(context, '3. Rooms and measurements'),
               Row(children: [
                 Expanded(
                   flex: 3,
                   child: TextField(
                     controller: _roomName,
-                    decoration: const InputDecoration(labelText: 'Estancia'),
+                    decoration: const InputDecoration(labelText: 'Room'),
                   ),
                 ),
                 const SizedBox(width: 8),
@@ -174,7 +174,7 @@ class _ProjectSetupPageState extends State<ProjectSetupPage> {
                   flex: 2,
                   child: DropdownButtonFormField<RoomType>(
                     value: _roomType,
-                    decoration: const InputDecoration(labelText: 'Tipo'),
+                    decoration: const InputDecoration(labelText: 'Type'),
                     items: RoomType.values.map((type) => DropdownMenuItem(value: type, child: Text(type.label, overflow: TextOverflow.ellipsis))).toList(),
                     onChanged: (value) => setState(() => _roomType = value ?? _roomType),
                   ),
@@ -182,13 +182,13 @@ class _ProjectSetupPageState extends State<ProjectSetupPage> {
               ]),
               const SizedBox(height: 12),
               Row(children: [
-                Expanded(child: TextField(controller: _area, keyboardType: const TextInputType.numberWithOptions(decimal: true), decoration: const InputDecoration(labelText: 'Superficie', suffixText: 'm²')),
+                Expanded(child: TextField(controller: _area, keyboardType: const TextInputType.numberWithOptions(decimal: true), decoration: const InputDecoration(labelText: 'Area', suffixText: 'm²')),
                 const SizedBox(width: 12),
-                FilledButton.icon(onPressed: _addRoom, icon: const Icon(Icons.add), label: const Text('Añadir')),
+                FilledButton.icon(onPressed: _addRoom, icon: const Icon(Icons.add), label: const Text('Add')),
               ]),
               const SizedBox(height: 8),
               if (_rooms.isEmpty)
-                const Text('Añade las habitaciones y confirma sus superficies.', style: TextStyle(color: Colors.black54))
+                const Text('Add rooms and confirm their areas.', style: TextStyle(color: Colors.black54))
               else
                 ..._rooms.asMap().entries.map((entry) {
                   final index = entry.key;
@@ -205,10 +205,10 @@ class _ProjectSetupPageState extends State<ProjectSetupPage> {
               FilledButton.icon(
                 onPressed: _generatePlan,
                 icon: const Icon(Icons.auto_awesome),
-                label: const Padding(padding: EdgeInsets.symmetric(vertical: 14), child: Text('Generar plan orientativo')),
+                label: const Padding(padding: EdgeInsets.symmetric(vertical: 14), child: Text('Generate initial plan')),
               ),
               const SizedBox(height: 12),
-              const Text('La app no analiza vídeo todavía. Las estimaciones no son un presupuesto profesional ni un proyecto técnico.', textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: Colors.black54)),
+              const Text('The app does not analyze video yet. Estimates are not professional quotes or technical plans.', textAlign: TextAlign.center, style: TextStyle(fontSize: 12, color: Colors.black54)),
             ],
           ),
         ),
@@ -232,7 +232,7 @@ class PlanPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final plan = _generator.generate(project);
     return Scaffold(
-      appBar: AppBar(title: const Text('Tu plan inicial')),
+      appBar: AppBar(title: const Text('Your initial plan')),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
@@ -244,17 +244,17 @@ class PlanPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text('Rango preliminar', style: Theme.of(context).textTheme.titleMedium),
+                Text('Preliminary range', style: Theme.of(context).textTheme.titleMedium),
                 const SizedBox(height: 8),
                 Text('${_euros(plan.lowTotalEuros)} – ${_euros(plan.highTotalEuros)}', style: Theme.of(context).textTheme.headlineSmall),
-                Text('Presupuesto indicado: ${_euros(plan.budgetEuros)}'),
-                if (plan.likelyOverBudget) const Text('El límite indicado queda por debajo incluso del extremo bajo estimado.', style: TextStyle(color: Colors.red)),
+                Text('Stated budget: ${_euros(plan.budgetEuros)}'),
+                if (plan.likelyOverBudget) const Text('The stated limit is below even the low end of the estimate.', style: TextStyle(color: Colors.red)),
               ]),
             ),
           ),
           const SizedBox(height: 16),
-          Text('Partidas', style: Theme.of(context).textTheme.titleLarge),
-          if (plan.lineItems.isEmpty) const ListTile(title: Text('No hay partidas: añade habitaciones con medidas válidas.')),
+          Text('Line items', style: Theme.of(context).textTheme.titleLarge),
+          if (plan.lineItems.isEmpty) const ListTile(title: Text('No line items: add rooms with valid measurements.')),
           ...plan.lineItems.map((item) => Card(
                 child: ListTile(
                   title: Text(item.title),
@@ -264,10 +264,10 @@ class PlanPage extends StatelessWidget {
                 ),
               )),
           const SizedBox(height: 16),
-          Text('Supuestos', style: Theme.of(context).textTheme.titleLarge),
+          Text('Assumptions', style: Theme.of(context).textTheme.titleLarge),
           ...plan.assumptions.map((item) => ListTile(leading: const Icon(Icons.info_outline), title: Text(item))),
           const SizedBox(height: 8),
-          Text('Alertas de viabilidad', style: Theme.of(context).textTheme.titleLarge),
+          Text('Feasibility warnings', style: Theme.of(context).textTheme.titleLarge),
           ...plan.warnings.map((item) => ListTile(leading: const Icon(Icons.warning_amber_outlined), title: Text(item))),
         ],
       ),

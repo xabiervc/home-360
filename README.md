@@ -1,4 +1,4 @@
-# New Home
+# Home 360
 
 A privacy-first, independent web demo for exploring a home-renovation planning flow. This prototype is original code; it does not decompile, copy, or redistribute other products' code, assets, models, or private APIs.
 
@@ -14,7 +14,7 @@ Then open `http://localhost:8000`. The optional video preview uses a browser-loc
 
 ## Demo scope
 
-- Spanish-language, three-step responsive web flow.
+- English-language, three-step responsive web flow.
 - Style, budget, location, and priority inputs.
 - Add/remove rooms and user-entered approximate areas.
 - Optional local video preview after explicit consent; no automatic analysis, upload, or server storage.

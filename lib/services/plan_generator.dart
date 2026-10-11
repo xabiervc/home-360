@@ -14,53 +14,53 @@ class PlanGenerator {
       switch (room.type) {
         case RoomType.kitchen:
           items.add(_item(
-            '${room.name}: actualización de cocina',
-            'Acabados y renovación ligera; no presupone cambio de distribución.',
+            '${room.name}: kitchen refresh',
+            'Finishes and light renovation; no layout change is assumed.',
             room.areaSquareMeters * 280,
             room.areaSquareMeters * 650,
-            'Estimación orientativa por superficie. No incluye electrodomésticos ni cambios de instalaciones.',
+            'Illustrative area-based estimate. Appliances and utility changes are excluded.',
           ));
         case RoomType.bathroom:
           items.add(_item(
-            '${room.name}: actualización de baño',
-            'Acabados y renovación ligera; verificar impermeabilización e instalaciones.',
+            '${room.name}: bathroom refresh',
+            'Finishes and light renovation; verify waterproofing and utilities.',
             room.areaSquareMeters * 350,
             room.areaSquareMeters * 800,
-            'Estimación orientativa por superficie. El estado de fontanería puede cambiar sustancialmente el coste.',
+            'Illustrative area-based estimate. Plumbing condition may significantly change the cost.',
           ));
         case RoomType.livingRoom:
         case RoomType.bedroom:
         case RoomType.hallway:
         case RoomType.other:
           items.add(_item(
-            '${room.name}: pintura y acabados',
-            'Mejora estética conservando la distribución existente.',
+            '${room.name}: painting and finishes',
+            'Cosmetic improvement while retaining the existing layout.',
             room.areaSquareMeters * 45,
             room.areaSquareMeters * 130,
-            'Rango preliminar por superficie; depende del estado actual y de los materiales elegidos.',
+            'Preliminary area-based range; depends on current condition and selected materials.',
           ));
       }
     }
 
     if (project.rooms.any((room) => !room.hasValidArea)) {
       items.add(const PlanLineItem(
-        title: 'Mediciones pendientes',
-        description: 'Confirma las superficies de las estancias antes de afinar el cálculo.',
+        title: 'Measurements pending',
+        description: 'Confirm room areas before refining the calculation.',
         lowEstimateEuros: 0,
         highEstimateEuros: 0,
-        assumption: 'Se han omitido estancias con superficies no válidas.',
+        assumption: 'Rooms with invalid areas have been omitted.',
       ));
     }
 
     final warnings = <String>[
-      'Estimación demostrativa: no equivale a presupuesto de contratista ni proyecto técnico.',
-      'El vídeo o las medidas aportadas no permiten confirmar estructura, instalaciones ocultas ni permisos.',
+      'Demonstration estimate: not a contractor quote or technical project.',
+      'Video or user-provided measurements cannot verify structure, hidden utilities, or permits.',
     ];
     if (project.rooms.isEmpty) {
-      warnings.add('Añade al menos una estancia para generar partidas orientativas.');
+      warnings.add('Add at least one room to generate indicative line items.');
     }
     if (project.keepItems.isNotEmpty) {
-      warnings.add('Se intentará conservar: ${project.keepItems.join(', ')}. Confirma su estado y medidas.');
+      warnings.add('Items to retain: ${project.keepItems.join(', ')}. Confirm their condition and measurements.');
     }
 
     return RenovationPlan(
@@ -69,10 +69,10 @@ class PlanGenerator {
       lineItems: items,
       warnings: warnings,
       assumptions: [
-        'Estilo elegido: ${project.style.label}.',
-        'Prioridades indicadas: ${project.priorities.isEmpty ? 'ninguna todavía' : project.priorities.join(', ')}.',
-        'Ubicación declarada: ${project.city.isEmpty ? 'sin especificar' : project.city}.',
-        'Los rangos usan tarifas ficticias de prototipo y no reflejan precios locales actualizados.',
+        'Selected style: ${project.style.label}.',
+        'Stated priorities: ${project.priorities.isEmpty ? 'none yet' : project.priorities.join(', ')}.',
+        'Stated location: ${project.city.isEmpty ? 'not specified' : project.city}.',
+        'Ranges use fictional prototype rates and do not reflect current local prices.',
       ],
       budgetEuros: project.budgetEuros,
     );
