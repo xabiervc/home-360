@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f4ef">
+  <meta name="description" content="Demo privada de New Home: convierte tus preferencias y datos del piso en una primera propuesta de reforma.">
+  <title>New Home — Planifica tu reforma</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#inicio" aria-label="New Home, inicio"><span class="brand-mark">N</span><span>new home</span></a>
+    <div class="top-note"><span class="privacy-dot"></span> Demo privada · tus datos se quedan en este dispositivo</div>
+  </header>
+  <main id="inicio" class="shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <div class="eyebrow"><span>PLANIFICACIÓN DE REFORMAS</span><span class="eyebrow-line"></span></div>
+        <h1>Tu casa, con<br><em>un plan posible.</em></h1>
+        <p class="hero-lead">Cuéntanos cómo quieres vivir y qué espacio tienes. Prepararemos una primera propuesta para ayudarte a decidir por dónde empezar.</p>
+        <div class="hero-points"><span><span class="check">✓</span> A tu medida</span><span><span class="check">✓</span> Sin subir tu vídeo</span><span><span class="check">✓</span> Sin falsas promesas</span></div>
+      </div>
+      <div class="hero-art" aria-label="Ilustración de una estancia reformada" role="img">
+        <div class="sun"></div><div class="art-window"><div class="window-sky"></div><div class="window-hill"></div><div class="window-frame-v"></div><div class="window-frame-h"></div></div>
+        <div class="art-wall"></div><div class="art-floor"></div><div class="art-frame"><div class="frame-art"><span></span><i></i></div></div>
+        <div class="plant"><i></i><i></i><i></i><i></i><b></b></div><div class="sofa"><div class="sofa-back"></div><div class="sofa-seat"></div><div class="sofa-arm left"></div><div class="sofa-arm right"></div><div class="sofa-leg l1"></div><div class="sofa-leg l2"></div><div class="pillow"></div></div>
+        <div class="table"><div class="table-top"></div><div class="table-leg"></div><div class="vase"></div></div>
+        <div class="art-caption"><span>01 / POSIBILIDADES</span><span>Imagina antes de empezar</span></div>
+      </div>
+    </section>
+
+    <div class="stepper" aria-label="Pasos del formulario">
+      <div class="step active" data-step-indicator="1"><span>01</span><b>Tu idea</b></div><i></i><div class="step" data-step-indicator="2"><span>02</span><b>El espacio</b></div><i></i><div class="step" data-step-indicator="3"><span>03</span><b>Tu propuesta</b></div>
+    </div>
+
+    <section class="form-card" id="wizard">
+      <form id="project-form" novalidate>
+        <div class="wizard-panel active" data-panel="1">
+          <div class="panel-heading"><div><div class="eyebrow small">PRIMERO, LO IMPORTANTE</div><h2>¿Qué necesitas de tu casa?</h2><p>No hay respuestas correctas. Esto es lo que usaremos para orientar las ideas.</p></div><div class="heading-number">01</div></div>
+          <div class="form-grid two">
+            <label class="field">¿Cómo llamamos al proyecto?<input id="project-name" name="projectName" value="Mi nuevo hogar" maxlength="60" required></label>
+            <label class="field">Ciudad o zona<input id="city" name="city" value="Madrid" maxlength="60" placeholder="Ej. Madrid"></label>
+          </div>
+          <fieldset class="field-group"><legend>¿Qué estilo te atrae?</legend><div class="style-options">
+            <label class="style-option"><input type="radio" name="style" value="Mediterráneo" checked><span class="style-swatch mediterranean"></span><b>Mediterráneo</b><small>Luz, materiales naturales</small></label>
+            <label class="style-option"><input type="radio" name="style" value="Nórdico"><span class="style-swatch nordic"></span><b>Nórdico</b><small>Calma, madera clara</small></label>
+            <label class="style-option"><input type="radio" name="style" value="Contemporáneo"><span class="style-swatch contemporary"></span><b>Contemporáneo</b><small>Líneas limpias, contraste</small></label>
+            <label class="style-option"><input type="radio" name="style" value="Japandi"><span class="style-swatch japandi"></span><b>Japandi</b><small>Sencillez, tonos cálidos</small></label>
+          </div></fieldset>
+          <fieldset class="field-group"><legend>¿Qué te gustaría mejorar? <span class="muted">Elige las que quieras</span></legend><div class="chip-options">
+            <label><input type="checkbox" name="priority" value="Más luz natural"><span>Más luz natural</span></label><label><input type="checkbox" name="priority" value="Más almacenaje"><span>Más almacenaje</span></label><label><input type="checkbox" name="priority" value="Mejor distribución"><span>Mejor distribución</span></label><label><input type="checkbox" name="priority" value="Más espacio para trabajar"><span>Espacio para trabajar</span></label><label><input type="checkbox" name="priority" value="Mejorar eficiencia energética"><span>Eficiencia energética</span></label><label><input type="checkbox" name="priority" value="Actualizar acabados"><span>Actualizar acabados</span></label>
+          </div></fieldset>
+          <div class="form-grid two budget-row"><label class="field">Presupuesto máximo orientativo<div class="input-suffix"><input id="budget" inputmode="numeric" type="number" min="1000" step="500" value="30000" required><span>€</span></div></label><div class="budget-hint"><span class="hint-icon">i</span><span>Si aún no tienes cifra, pon un límite aproximado. No es un compromiso.</span></div></div>
+          <div class="panel-actions"><span class="required-note">* El resultado será una orientación, no un presupuesto de obra.</span><button type="button" class="button primary" data-next="2">Describir el espacio <span>→</span></button></div>
+        </div>
+
+        <div class="wizard-panel" data-panel="2">
+          <div class="panel-heading"><div><div class="eyebrow small">EL ESPACIO REAL</div><h2>Muéstranos el piso</h2><p>Añade habitaciones y, si quieres, un vídeo como referencia visual.</p></div><div class="heading-number">02</div></div>
+          <div class="upload-box" id="drop-zone"><div class="upload-icon">↥</div><div class="upload-copy"><b>Un recorrido ayuda a contextualizar</b><span>Elige un vídeo de tu dispositivo. En esta demo se previsualiza localmente: no se envía ni se analiza automáticamente.</span></div><label class="button secondary upload-button" for="video-file">Elegir vídeo</label><input id="video-file" type="file" accept="video/*" hidden></div>
+          <div class="consent-row"><input id="video-consent" type="checkbox"><label for="video-consent">Entiendo que el vídeo puede mostrar datos personales. Esta demo solo lo carga localmente para previsualizarlo y lo descarta al cerrar o recargar la página.</label></div>
+          <div class="video-preview" id="video-preview" hidden><video id="preview-player" controls playsinline></video><div><b id="video-name"></b><button type="button" class="text-button" id="remove-video">Quitar vídeo</button></div></div>
+          <div class="measure-note"><span class="note-icon">⌁</span><p><b>Las medidas las confirmas tú.</b> Un vídeo normal no basta para medir con precisión paredes, alturas o huecos. Añade superficies aproximadas y revisaremos el plan cuando haya un escaneo fiable.</p></div>
+          <div class="room-editor"><div class="room-editor-head"><div><h3>Estancias</h3><span>Superficie aproximada en m²</span></div><span class="room-count" id="room-count">0 añadidas</span></div>
+            <div class="room-entry"><label class="field compact">Nombre<input id="room-name" placeholder="Ej. Salón" maxlength="40"></label><label class="field compact">Tipo<select id="room-type"><option value="Salón">Salón</option><option value="Cocina">Cocina</option><option value="Dormitorio">Dormitorio</option><option value="Baño">Baño</option><option value="Pasillo">Pasillo</option><option value="Otra estancia">Otra estancia</option></select></label><label class="field compact area-field">Área<div class="input-suffix"><input id="room-area" inputmode="decimal" type="number" min="1" max="250" step="0.5" placeholder="20"><span>m²</span></div></label><button type="button" class="add-room" id="add-room" aria-label="Añadir estancia">+</button></div>
+            <div class="room-list" id="room-list"><div class="empty-rooms">Aún no has añadido habitaciones.</div></div>
+          </div>
+          <div class="panel-actions"><button type="button" class="button ghost" data-back="1">← Volver</button><button type="button" class="button primary" id="generate-plan">Preparar propuesta <span>→</span></button></div>
+        </div>
+
+        <div class="wizard-panel" data-panel="3">
+          <div id="proposal-content"></div>
+          <div class="panel-actions"><button type="button" class="button ghost" data-back="2">← Editar datos</button><button type="button" class="button secondary" id="print-plan">Imprimir / guardar PDF <span>↗</span></button></div>
+        </div>
+      </form>
+    </section>
+    <footer><span>NEW HOME <span class="footer-dot">·</span> DEMO CONCEPTUAL</span><span>No se envían vídeos ni datos a un servidor.</span><a href="https://github.com/xabiervc/new-home" target="_blank" rel="noreferrer">Código del prototipo ↗</a></footer>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
