@@ -1,4 +1,5 @@
 import '../models/renovation_project.dart';
+import '../models/plan.dart';
 
 /// Produces a transparent, deterministic early-stage estimate.
 /// Rates are placeholders, not a live local price catalogue or a contractor quote.
